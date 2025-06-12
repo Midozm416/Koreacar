@@ -1,0 +1,735 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة تكاليف السيارة المستعملة من كوريا</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>') repeat;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .car-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 2px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #4CAF50;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            font-size: 1.2em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .form-group input:invalid {
+            border-color: #f44336;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #4CAF50;
+            border: 2px solid #4CAF50;
+        }
+
+        .btn-outline:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .result-section {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+        }
+
+        .result-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .total-cost {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            counter-reset: total;
+        }
+
+        .cost-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .cost-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .cost-item-title {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .cost-item-value {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group .currency {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            padding-left: 50px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .form-section.completed {
+            border-color: #4CAF50;
+            background: #f8fff8;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <div class="car-icon">🚗</div>
+            <h1>حاسبة تكاليف السيارة المستعملة</h1>
+            <div class="subtitle">من كوريا الجنوبية</div>
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <form id="carForm">
+                <div class="form-grid">
+                    <!-- Car Details Section -->
+                    <div class="form-section" id="carSection">
+                        <div class="section-title">
+                            <i class="fas fa-car"></i>
+                            بيانات السيارة
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="carType">نوع السيارة:</label>
+                            <input type="text" id="carType" name="carType" required placeholder="مثال: هيونداي، كيا">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="seats">عدد المقاعد:</label>
+                            <input type="number" id="seats" name="seats" required min="2" max="9" placeholder="من 2 إلى 9">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fuel">نوع الوقود:</label>
+                            <select id="fuel" name="fuel" required>
+                                <option value="">اختر نوع الوقود</option>
+                                <option value="بنزين">⛽ بنزين</option>
+                                <option value="ديزل">🛢️ ديزل</option>
+                                <option value="هايبرد">🔋 هايبرد</option>
+                                <option value="كهربائية">⚡ كهربائية</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="model">الموديل:</label>
+                            <input type="text" id="model" name="model" required placeholder="مثال: 2020، 2019">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="engineSize">حجم المحرك (CC):</label>
+                            <input type="number" id="engineSize" name="engineSize" required min="800" max="8000" placeholder="مثال: 1600">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mileage">المسافة المقطوعة (كم):</label>
+                            <input type="number" id="mileage" name="mileage" required min="0" max="999999" placeholder="مثال: 50000">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bodyCondition">حالة الهيكل:</label>
+                            <input type="text" id="bodyCondition" name="bodyCondition" required placeholder="ممتازة، جيدة، متوسطة">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carSize">حجم السيارة:</label>
+                            <select id="carSize" name="carSize" required>
+                                <option value="">اختر حجم السيارة</option>
+                                <option value="small">🚗 صغيرة (شحن: 5,800 ريال)</option>
+                                <option value="large">🚙 كبيرة (شحن: 6,800 ريال)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Financial Details Section -->
+                    <div class="form-section" id="financialSection">
+                        <div class="section-title">
+                            <i class="fas fa-calculator"></i>
+                            التفاصيل المالية
+                        </div>
+
+                        <div class="form-group">
+                            <label for="krwToUsd">سعر صرف الدولار مقابل الوون الكوري:</label>
+                            <div class="input-group">
+                                <input type="number" id="krwToUsd" name="krwToUsd" required min="1000" max="2000" placeholder="1340">
+                                <span class="currency">KRW</span>
+                            </div>
+                            <button type="button" class="btn btn-outline" id="fetchExchangeRate" style="margin-top: 10px;">
+                                <i class="fas fa-sync-alt"></i>
+                                جلب سعر الصرف الحالي
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="usdToSar">سعر صرف الريال مقابل الدولار:</label>
+                            <div class="input-group">
+                                <input type="number" id="usdToSar" name="usdToSar" value="3.76" required step="0.01" min="3" max="5">
+                                <span class="currency">SAR</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carPriceKrw">سعر السيارة بالوون الكوري:</label>
+                            <div class="input-group">
+                                <input type="number" id="carPriceKrw" name="carPriceKrw" required min="1000000" placeholder="25000000">
+                                <span class="currency">KRW</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carPriceTable">سعر السيارة حسب الجدول:</label>
+                            <div class="input-group">
+                                <input type="number" id="carPriceTable" name="carPriceTable" required min="10000" placeholder="80000">
+                                <span class="currency">SAR</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="officeCommission">عمولة المكتب:</label>
+                            <div class="input-group">
+                                <input type="number" id="officeCommission" name="officeCommission" value="2000" required min="0">
+                                <span class="currency">SAR</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="customsFees">رسوم التخليص الجمركي:</label>
+                            <div class="input-group">
+                                <input type="number" id="customsFees" name="customsFees" value="1000" required min="0">
+                                <span class="currency">SAR</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="result-section">
+                    <div class="result-title">
+                        <i class="fas fa-chart-line"></i>
+                        إجمالي التكلفة
+                    </div>
+                    <div class="total-cost" id="totalCost">0</div>
+                    <div style="font-size: 1.2em; opacity: 0.9;">ريال سعودي</div>
+
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <div class="cost-item-title">سعر السيارة</div>
+                            <div class="cost-item-value" id="carCostSAR">0 ريال</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-item-title">الضريبة والجمارك</div>
+                            <div class="cost-item-value" id="taxCost">0 ريال</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-item-title">تكلفة الشحن</div>
+                            <div class="cost-item-value" id="shippingCost">0 ريال</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-item-title">الرسوم الإضافية</div>
+                            <div class="cost-item-value" id="additionalFees">0 ريال</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-primary" id="calculate">
+                        <i class="fas fa-calculator"></i>
+                        حساب التكلفة
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="copyMessage">
+                        <i class="fas fa-copy"></i>
+                        نسخ التفاصيل
+                    </button>
+                    <button type="reset" class="btn btn-outline" id="resetForm">
+                        <i class="fas fa-redo"></i>
+                        إعادة تعيين
+                    </button>
+                </div>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <div>جاري جلب أسعار الصرف...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('carForm');
+            const elements = {
+                krwToUsd: document.getElementById('krwToUsd'),
+                usdToSar: document.getElementById('usdToSar'),
+                carPriceKrw: document.getElementById('carPriceKrw'),
+                carPriceTable: document.getElementById('carPriceTable'),
+                officeCommission: document.getElementById('officeCommission'),
+                customsFees: document.getElementById('customsFees'),
+                carSize: document.getElementById('carSize'),
+                totalCost: document.getElementById('totalCost'),
+                carCostSAR: document.getElementById('carCostSAR'),
+                taxCost: document.getElementById('taxCost'),
+                shippingCost: document.getElementById('shippingCost'),
+                additionalFees: document.getElementById('additionalFees'),
+                progressFill: document.getElementById('progressFill'),
+                loading: document.getElementById('loading')
+            };
+
+            // Format number with thousands separator
+            function formatNumber(num) {
+                return Math.round(num).toLocaleString('ar-SA');
+            }
+
+            // Show toast notification
+            function showToast(message, type = 'success') {
+                const existingToast = document.querySelector('.toast');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                setTimeout(() => toast.classList.add('show'), 100);
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // Update progress bar
+            function updateProgress() {
+                const inputs = form.querySelectorAll('input[required], select[required]');
+                const filled = Array.from(inputs).filter(input => input.value.trim() !== '').length;
+                const percentage = (filled / inputs.length) * 100;
+                elements.progressFill.style.width = percentage + '%';
+
+                // Mark sections as completed
+                const carInputs = document.querySelectorAll('#carSection input[required], #carSection select[required]');
+                const carFilled = Array.from(carInputs).every(input => input.value.trim() !== '');
+                document.getElementById('carSection').classList.toggle('completed', carFilled);
+
+                const financialInputs = document.querySelectorAll('#financialSection input[required], #financialSection select[required]');
+                const financialFilled = Array.from(financialInputs).every(input => input.value.trim() !== '');
+                document.getElementById('financialSection').classList.toggle('completed', financialFilled);
+            }
+
+            // Fetch exchange rate (mock function - replace with actual API call)
+            async function fetchExchangeRate() {
+                elements.loading.style.display = 'block';
+                
+                try {
+                    // Mock API call - replace with actual implementation
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    // Simulate fetched rate
+                    const mockRate = 1340 + Math.random() * 50; // Random rate between 1340-1390
+                    elements.krwToUsd.value = mockRate.toFixed(0);
+                    
+                    showToast('تم جلب سعر الصرف بنجاح!', 'success');
+                    calculateTotalCost();
+                } catch (error) {
+                    showToast('فشل في جلب سعر الصرف. يرجى المحاولة لاحقًا.', 'error');
+                } finally {
+                    elements.loading.style.display = 'none';
+                }
+            }
+
+            // Calculate total cost
+            function calculateTotalCost() {
+                try {
+                    // Your original calculation logic (keeping the -10 as requested)
+                    const exchangeRateKrw = (parseFloat(elements.krwToUsd.value) || 0) - 10;
+                    const carPriceUsd = (parseFloat(elements.carPriceKrw.value) || 0) / (exchangeRateKrw || 1);
+                    const carPriceSar = (carPriceUsd || 0) * (parseFloat(elements.usdToSar.value) || 0);
+                    const taxAndCustoms = (parseFloat(elements.carPriceTable.value) || 0) * 0.2;
+                    const shippingCostValue = elements.carSize.value === 'small' ? 5800 : 6800;
+                    const additionalFeesValue = (parseFloat(elements.customsFees.value) || 0) + (parseFloat(elements.officeCommission.value) || 0);
+                    const total = carPriceSar + taxAndCustoms + additionalFeesValue + shippingCostValue;
+
+                    // Update display with formatted numbers
+                    elements.totalCost.textContent = formatNumber(total);
+                    elements.carCostSAR.textContent = formatNumber(carPriceSar) + ' ريال';
+                    elements.taxCost.textContent = formatNumber(taxAndCustoms) + ' ريال';
+                    elements.shippingCost.textContent = formatNumber(shippingCostValue) + ' ريال';
+                    elements.additionalFees.textContent = formatNumber(additionalFeesValue) + ' ريال';
+
+                    // Animate the total cost
+                    elements.totalCost.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        elements.totalCost.style.transform = 'scale(1)';
+                    }, 200);
+
+                } catch (error) {
+                    showToast('حدث خطأ في الحساب. يرجى التحقق من البيانات المدخلة.', 'error');
+                }
+            }
+
+            // Copy message to clipboard
+            function copyMessageToClipboard() {
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData);
+                
+                // Your original message format
+                const exchangeRateKrw = (parseFloat(elements.krwToUsd.value) || 0) - 10;
+                const carPriceUsd = (parseFloat(elements.carPriceKrw.value) || 0) / (exchangeRateKrw || 1);
+                const carPriceSar = (carPriceUsd || 0) * (parseFloat(elements.usdToSar.value) || 0);
+                const taxAndCustoms = ((parseFloat(elements.carPriceTable.value) || 0) * 0.2);
+                const shippingCostValue = elements.carSize.value === 'small' ? 5800 : 6800;
+                const totalCostValue = Math.round(carPriceSar + taxAndCustoms + (parseFloat(elements.customsFees.value) || 0) + (parseFloat(elements.officeCommission.value) || 0) + shippingCostValue);
+
+                const message = `
+🚗 تفاصيل السيارة:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• نوع السيارة: ${data.carType}
+• عدد المقاعد: ${data.seats}
+• نوع الوقود: ${data.fuel}
+• الموديل: ${data.model}
+• حجم المحرك: ${data.engineSize} CC
+• الممشى: ${Math.round(data.mileage)} كم
+• حالة البودي: ${data.bodyCondition}
+
+💰 التفاصيل المالية:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• سعر الوون: ${Math.round(data.carPriceKrw)}
+• السعر بالريال: ${Math.round(carPriceSar)}
+• الضريبة والجمارك: ${Math.round(taxAndCustoms)}
+• رسوم التخليص: ${Math.round(data.customsFees)}
+• عمولة المكتب: ${Math.round(data.officeCommission)}
+• تكلفة الشحن: ${shippingCostValue}
+
+💎 إجمالي السعر الشامل: ${totalCostValue} ريال سعودي
+                `;
+
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(message).then(() => {
+                        showToast('تم نسخ التفاصيل بنجاح!', 'success');
+                    }).catch(() => {
+                        showToast('حدث خطأ أثناء النسخ!', 'error');
+                    });
+                } else {
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = message;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    showToast('تم نسخ التفاصيل بنجاح!', 'success');
+                }
+            }
+
+            // Event listeners
+            form.addEventListener('input', () => {
+                updateProgress();
+                calculateTotalCost();
+            });
+
+            document.getElementById('calculate').addEventListener('click', calculateTotalCost);
+            document.getElementById('copyMessage').addEventListener('click', copyMessageToClipboard);
+            document.getElementById('fetchExchangeRate').addEventListener('click', fetchExchangeRate);
+            
+            document.getElementById('resetForm').addEventListener('click', () => {
+                form.reset();
+                elements.usdToSar.value = '3.76';
+                elements.officeCommission.value = '2000';
+                elements.customsFees.value = '1000';
+                updateProgress();
+                calculateTotalCost();
+                showToast('تم إعادة تعيين النموذج', 'success');
+            });
+
+            // Initialize
+            updateProgress();
+            calculateTotalCost();
+        });
+    </script>
