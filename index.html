@@ -451,7 +451,7 @@
                         <div class="form-group">
                             <label for="usdToSar">سعر صرف الريال مقابل الدولار:</label>
                             <div class="input-group">
-                                <input type="number" id="usdToSar" name="usdToSar" value="3.76" required step="0.01" min="3" max="5">
+                                <input type="number" id="usdToSar" name="usdToSar" value="3.77" required step="0.01" min="3" max="5">
                                 <span class="currency">SAR</span>
                             </div>
                         </div>
@@ -719,10 +719,8 @@
             document.getElementById('fetchExchangeRate').addEventListener('click', fetchExchangeRate);
             
             document.getElementById('resetForm').addEventListener('click', () => {
-                    const originalKrwToUsd = elements.krwToUsd.value; // 🟡 احفظ القيمة الحالية
                 form.reset();
-                    elements.krwToUsd.value = originalKrwToUsd; // 🟢 استرجع القيمة بعد reset
-                elements.usdToSar.value = '3.76';
+                elements.usdToSar.value = '3.77';
                 elements.officeCommission.value = '2000';
                 elements.customsFees.value = '1500';
                 updateProgress();
