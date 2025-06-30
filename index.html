@@ -628,7 +628,7 @@
             function calculateTotalCost() {
                 try {
                     // Your original calculation logic (keeping the -10 as requested)
-                    const exchangeRateKrw = (parseFloat(elements.krwToUsd.value) || 0) - 10;
+                    const exchangeRateKrw = (parseFloat(elements.krwToUsd.value) || 1);
                     const carPriceUsd = (parseFloat(elements.carPriceKrw.value) || 0) / (exchangeRateKrw || 1);
                     const carPriceSar = (carPriceUsd || 0) * (parseFloat(elements.usdToSar.value) || 0);
                     const taxAndCustoms = (parseFloat(elements.carPriceTable.value) || 0) * 0.2;
@@ -660,7 +660,7 @@
                 const data = Object.fromEntries(formData);
                 
                 // Your original message format
-                const exchangeRateKrw = (parseFloat(elements.krwToUsd.value) || 0) - 10;
+                const exchangeRateKrw = (parseFloat(elements.krwToUsd.value) || 1);
                 const carPriceUsd = (parseFloat(elements.carPriceKrw.value) || 0) / (exchangeRateKrw || 1);
                 const carPriceSar = (carPriceUsd || 0) * (parseFloat(elements.usdToSar.value) || 0);
                 const taxAndCustoms = ((parseFloat(elements.carPriceTable.value) || 0) * 0.2);
