@@ -719,7 +719,9 @@
             document.getElementById('fetchExchangeRate').addEventListener('click', fetchExchangeRate);
             
             document.getElementById('resetForm').addEventListener('click', () => {
+                    const originalKrwToUsd = elements.krwToUsd.value; // 🟡 احفظ القيمة الحالية
                 form.reset();
+                    elements.krwToUsd.value = originalKrwToUsd; // 🟢 استرجع القيمة بعد reset
                 elements.usdToSar.value = '3.76';
                 elements.officeCommission.value = '2000';
                 elements.customsFees.value = '1500';
